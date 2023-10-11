@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public float Speed = 10f;
     public float rotationSpeed = 8000.0f;
-    public float JumpForce = 300f;
+    public float JumpForce = 600f;
     private float horizontalInput;
     private float verticalInput;
 
