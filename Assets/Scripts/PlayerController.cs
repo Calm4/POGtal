@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    private Animator animator;
     private PlayerInputActions playerInputActions;
 
     public float Speed = 10f;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         playerRb = GetComponent<Rigidbody>();
         isGrounded = true;
     }
@@ -63,7 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerInputActions.Player.Jump.triggered && isGrounded)
         {
-            playerRb.AddForce(Physics.gravity * playerRb.mass );
+            playerRb.AddForce(Vector3.up * JumpForce * 0.02f, ForceMode.VelocityChange);
             isGrounded = false;
         }
     }
