@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public float Speed = 10f;
     public float rotationSpeed = 8000.0f;
-    public float JumpForce = 600f;
+    public float JumpForce = 300f;
     private float horizontalInput;
     private float verticalInput;
 
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerInputActions.Player.Jump.triggered && isGrounded)
         {
-            playerRb.AddForce(Vector3.up * JumpForce);
+            playerRb.AddForce(Vector3.up * JumpForce * 0.02f, ForceMode.VelocityChange);
             isGrounded = false;
         }
     }
