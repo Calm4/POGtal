@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerRb.AddForce(Physics.gravity * 3f, ForceMode.Acceleration);
         Move();
         Jump();
     }
@@ -83,6 +84,10 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Block")
         {
             isGrounded = value;
+        }
+        if(!value)
+        {
+            playerRb.AddForce(Physics.gravity * 3f, ForceMode.Acceleration);
         }
     }
 
