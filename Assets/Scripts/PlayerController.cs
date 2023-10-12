@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerInputActions.Player.Jump.triggered && isGrounded)
         {
-            playerRb.AddForce(Vector3.up * JumpForce * 0.02f, ForceMode.VelocityChange);
+            playerRb.AddForce(Physics.gravity * playerRb.mass );
             isGrounded = false;
         }
     }
