@@ -17,57 +17,54 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField] private float Speed;
     [SerializeField] private float Sensitivity;
-    [SerializeField] private float JumpForce;
+    [SerializeField] private float JumpForceForward;
+    [SerializeField] private float JumpForceGlobal;
+
     [Space]
     private bool isGrounded;
 
-    private Vector3 Velocity;
 
-
-
-
-    private void Awake()
-    {
-
-    }
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-
         playerRb = GetComponent<Rigidbody>();
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        PlayerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        MovePlayer();
+        PlayerMovement();
+        PlayerJump();
         MovePlayerCamera();
     }
 
-    private void MovePlayer()
+    private void PlayerMovement()
     {
         Vector3 MoveVector = transform.TransformDirection(PlayerMovementInput) * Speed;
         playerRb.velocity = new Vector3(MoveVector.x, playerRb.velocity.y, MoveVector.z);
-        if (Physics.CheckSphere(feetTransform.position, 0.3f, floorMask))
+
+    }
+    private void PlayerJump()
+    {
+        JumpForceGlobal = JumpForceForward;
+        if (Physics.CheckSphere(feetTransform.position, 0.3f, floorMask)) // Если игрок стоит на разрешенной поверхности, то:
         {
             PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
             isGrounded = true;
         }
         else
         {
-            if (Input.GetAxis("Vertical") >= 0)
+            isGrounded = false;
+            if (Input.GetAxis("Vertical") >= 0) // Прыжок вперед
             {
+                JumpForceGlobal = JumpForceForward;
                 PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, Input.GetAxis("Vertical"));
-                isGrounded = false;
             }
-            else
+            else // Прыжок назад
             {
+                JumpForceGlobal = JumpForceForward / 2;
                 PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, 0f);
-                isGrounded = false;
             }
         }
 
@@ -75,12 +72,13 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded)
             {
-                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                playerRb.AddForce(Vector3.up * JumpForceGlobal, ForceMode.Impulse);
             }
         }
     }
     private void MovePlayerCamera()
     {
+        PlayerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         xRotation = Mathf.Clamp(xRotation - PlayerMouseInput.y * Sensitivity, -90f, 90f);
 
         transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
