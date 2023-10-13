@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     }
     private void PlayerJump()
     {
-        JumpForceGlobal = JumpForceForward;
         if (Physics.CheckSphere(feetTransform.position, 0.3f, floorMask)) // Если игрок стоит на разрешенной поверхности, то:
         {
             PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
@@ -55,6 +54,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            JumpForceGlobal = JumpForceForward;
             isGrounded = false;
             if (Input.GetAxis("Vertical") >= 0) // Прыжок вперед
             {
@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
             else // Прыжок назад
             {
                 JumpForceGlobal = JumpForceForward / 2;
+                Debug.Log(111);
                 PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, 0f);
             }
         }
