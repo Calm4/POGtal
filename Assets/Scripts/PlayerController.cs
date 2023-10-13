@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 PlayerMovementInput;
     private Vector2 PlayerMouseInput;
 
+  
+
     private float xRotation;
 
     [SerializeField] private LayerMask floorMask;
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         Cursor.lockState = CursorLockMode.Locked;
         playerRb = GetComponent<Rigidbody>();
     }

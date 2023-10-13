@@ -16,15 +16,21 @@ public class PlayerDash : MonoBehaviour
     public float dashDuration;
 
     [Header("Cooldown")]
-    public float dashCooldown;
-    private float dashCooldownTimer;
+    public float dashCooldown = 2f;
+
 
     [Header("Input")]
     public KeyCode dashKey = KeyCode.LeftShift;
 
+    private bool canDash = true;
+    private Vector3 delayedForceToApply;
+
+    private UIElements uiElements;
     // Start is called before the first frame update
     void Start()
     {
+
+        uiElements = GameObject.Find("UIElements").GetComponent<UIElements>();
         playerRigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
 
@@ -32,38 +38,42 @@ public class PlayerDash : MonoBehaviour
 
     private void Dash()
     {
-        if (dashCooldownTimer > 0)
-        {
-            return;
-        }
-        else
-        {
-            dashCooldownTimer -= Time.deltaTime;
-        }
+       
+        uiElements.UpdateUI();
         Vector3 forceToApply = orientation.forward * dashForce + orientation.up * dashUpwardForce;
-        delayedForceToApply = forceToApply;
         playerRigidbody.AddForce(forceToApply, ForceMode.Impulse);
-        Invoke(nameof(DelayedDashForce), 0.025f);
-
-        Invoke(nameof(ResetDash), dashDuration);
-
-    }
-    private Vector3 delayedForceToApply;
-    private void DelayedDashForce()
-    {
-
     }
 
     private void ResetDash()
     {
-        
+        if (!canDash)
+        {
+            dashCooldown -= Time.deltaTime; // Уменьшаем время задержки
+
+            if (dashCooldown <= 0f)
+            {
+                
+                uiElements.UpdateUI();
+
+
+                canDash = true; // Возможность рывка восстановлена
+                dashCooldown = 2f; // Сброс времени задержки
+            }
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(dashKey))
+        if (!canDash)
+        {
+            ResetDash();
+        }
+
+        if (Input.GetKeyDown(dashKey) && canDash)
         {
             Dash();
+            canDash = false;
         }
+        
     }
 }
