@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private float Sensitivity;
     [SerializeField] private float JumpForce;
-    [SerializeField] private const float Gravity = -9.81f;
     [Space]
 
 
@@ -81,7 +80,7 @@ public class PlayerController : MonoBehaviour
     }
     private void MovePlayerCamera()
     {
-        xRotation -= PlayerMouseInput.y * Sensitivity;
+        xRotation = Mathf.Clamp(xRotation - PlayerMouseInput.y * Sensitivity, -90f, 90f);
 
         transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
