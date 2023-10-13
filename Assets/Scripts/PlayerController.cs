@@ -17,8 +17,7 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField] private float Speed;
     [SerializeField] private float Sensitivity;
-    [SerializeField] private float JumpForceForward;
-    [SerializeField] private float JumpForceGlobal;
+    [SerializeField] private float JumpForce;
 
     [Space]
     private bool isGrounded;
@@ -54,18 +53,16 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            JumpForceGlobal = JumpForceForward;
-            isGrounded = false;
-            if (Input.GetAxis("Vertical") >= 0) // Прыжок вперед
+            if (Input.GetKey(KeyCode.W))
             {
-                JumpForceGlobal = JumpForceForward;
                 PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, Input.GetAxis("Vertical"));
+                isGrounded = false;
+
             }
-            else // Прыжок назад
+            else if (Input.GetKey(KeyCode.S))
             {
-                JumpForceGlobal = JumpForceForward / 2;
-                Debug.Log(111);
-                PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, 0f);
+                PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, Input.GetAxis("Vertical") / 3);
+                isGrounded = false;
             }
         }
 
@@ -73,7 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded)
             {
-                playerRb.AddForce(Vector3.up * JumpForceGlobal, ForceMode.Impulse);
+                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             }
         }
     }

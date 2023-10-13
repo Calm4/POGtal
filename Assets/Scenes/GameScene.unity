@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18154635, g: 0.22718929, b: 0.3074078, a: 1}
+  m_IndirectSpecularColor: {r: 0.18154661, g: 0.2271898, b: 0.3074084, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1348,8 +1348,7 @@ MonoBehaviour:
   playerCamera: {fileID: 414657153}
   Speed: 4
   Sensitivity: 3
-  JumpForceForward: 10
-  JumpForceGlobal: 5
+  JumpForce: 5
 --- !u!136 &1530534159
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1481,7 +1480,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 16, y: 16}
+  m_SizeDelta: {x: 8, y: 8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1770403448
 MonoBehaviour:
@@ -1735,8 +1734,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   Speed: 0
   Sensitivity: 0
-  JumpForceForward: 0
-  JumpForceGlobal: 0
+  JumpForce: 0
 --- !u!54 &2130587432
 Rigidbody:
   m_ObjectHideFlags: 0
