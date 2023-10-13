@@ -8,7 +8,9 @@ public class ObjectGrabbable : MonoBehaviour
     private Transform objectGrabPointTransform;
     public void Grab(Transform objectGrabPointTransform)
     {
-        objectGrabPointTransform.position = this.transform.position;
+        /* objectGrabPointTransform.position = this.transform.position;
+         this.objectGrabPointTransform = objectGrabPointTransform;*/
+
         this.objectGrabPointTransform = objectGrabPointTransform;
         objectRigidbody.useGravity = false;
     }
@@ -24,7 +26,7 @@ public class ObjectGrabbable : MonoBehaviour
         objectRigidbody = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if(objectGrabPointTransform != null)
         {
