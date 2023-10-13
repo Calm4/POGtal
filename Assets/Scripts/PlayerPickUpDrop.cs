@@ -6,6 +6,7 @@ public class PlayerPickUpDrop : MonoBehaviour
 {
 
     private PlayerInputActions playerInputActions;
+    [SerializeField] private Transform cameraTransform;
 
     private void Awake()
     {
@@ -19,12 +20,22 @@ public class PlayerPickUpDrop : MonoBehaviour
 
     private void PickUpItems_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Debug.Log("Canceled");
+       // Debug.Log("Canceled");
     }
 
     private void PickUpItems_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        Debug.Log("Started");
+        float pickUpDistance = 20f;
+
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit raycastHit, pickUpDistance))
+        {
+            Debug.Log("Опана");
+            if(raycastHit.transform.TryGetComponent(out ObjectGrabbable objectGrabbable))
+            {
+                Debug.Log(objectGrabbable);
+            }
+        }
+
     }
 
     void Start()
