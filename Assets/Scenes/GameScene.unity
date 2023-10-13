@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 250237054}
   - component: {fileID: 250237053}
   - component: {fileID: 250237052}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -690,7 +690,7 @@ GameObject:
   - component: {fileID: 287592666}
   - component: {fileID: 287592665}
   - component: {fileID: 287592664}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Block
   m_Icon: {fileID: 0}
@@ -1196,7 +1196,7 @@ GameObject:
   - component: {fileID: 751585552}
   - component: {fileID: 751585551}
   - component: {fileID: 751585550}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2742,7 +2742,7 @@ GameObject:
   - component: {fileID: 2011219119}
   - component: {fileID: 2011219118}
   - component: {fileID: 2011219117}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2917,7 +2917,7 @@ GameObject:
   - component: {fileID: 2038787062}
   - component: {fileID: 2038787061}
   - component: {fileID: 2038787060}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3026,8 +3026,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorMask:
     serializedVersion: 2
-    m_Bits: 0
-  feetTransform: {fileID: 0}
+    m_Bits: 64
+  feetTransform: {fileID: 1424494764}
   playerRb: {fileID: 2130587432}
   playerCamera: {fileID: 963194228}
   Speed: 5
@@ -3047,7 +3047,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &2130587433
 CapsuleCollider:
