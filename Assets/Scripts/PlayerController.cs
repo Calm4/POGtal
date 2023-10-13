@@ -5,21 +5,32 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    private Vector3 PlayerMovementInput;
+    private Vector2 PlayerMouseInput;
+
     private Animator animator;
-    private PlayerInputActions playerInputActions;
-    private Rigidbody playerRb;
+    private float xRotation;
 
-    public CharacterController controller;
-    public Transform cam;
-    public float speed = 5f;
+    [SerializeField] private LayerMask floorMask;
+    [SerializeField] private Transform feetTransform;
+    [SerializeField] private Rigidbody playerRb;
+    [SerializeField] private Transform playerCamera;
+    [Space]
+    [SerializeField] private float Speed;
+    [SerializeField] private float Sensitivity;
+    [SerializeField] private float JumpForce;
+    [SerializeField] private const float Gravity = -9.81f;
+    [Space]
 
-    public float turnSmoothTime = 0.1f;
-    private float turnSmoothVelocity;
+
+    private Vector3 Velocity;
+
+
+
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-        playerInputActions.Player.Enable();
+
     }
     // Start is called before the first frame update
     void Start()
@@ -33,62 +44,74 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //playerRb.AddForce(Physics.gravity * 3f, ForceMode.Acceleration);
-        Move();
-        // Jump();
-        //CameraRotating(); 
+        PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        PlayerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        MovePlayer();
+        MovePlayerCamera();
     }
 
-    private void Move()
+    private void MovePlayer()
     {
-        Vector2 inputVector = GetMovementVectorNormalized();
+        Vector3 MoveVector = transform.TransformDirection(PlayerMovementInput) * Speed;
+        playerRb.velocity = new Vector3(MoveVector.x, playerRb.velocity.y, MoveVector.z);
 
-        Vector3 directionVector = new Vector3(inputVector.x, 0, inputVector.y);
-
-        if (directionVector.magnitude > Mathf.Abs(0.1f))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Поворот игрока
-            float targetAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg + cam.eulerAngles.y; // для отслеживания поворота камеры приплюсуем eulerAngles.y
-            // Плавность для поворота
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (Physics.CheckSphere(feetTransform.position, 0.1f, floorMask))
+            {
+                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // forward - перед для камеры и для игрока
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            }
         }
-            animator.SetFloat("speed", Vector3.ClampMagnitude(directionVector, 1).magnitude);
-        // CameraRotating();
+        animator.SetFloat("speed", Vector3.ClampMagnitude(MoveVector, 1).magnitude);
+        /*
 
-        // playerRb.velocity = Vector3.ClampMagnitude(directionVector, 1) * Speed;
+                if (directionVector.magnitude > Mathf.Abs(0.1f))
+                {
+                    // Поворот игрока
+                    float targetAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg + cam.eulerAngles.y; // для отслеживания поворота камеры приплюсуем eulerAngles.y
+                    // Плавность для поворота
+                    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-
-
-
+                    Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // forward - перед для камеры и для игрока
+                    playerRb.velocity = moveDir.normalized * Speed;
+                }*/
 
     }
-
-    private void CameraRotating()
+    private void MovePlayerCamera()
     {
-        Vector2 inputVector = GetMovementVectorNormalized();
-        Vector3 cameraForward = Camera.main.transform.forward;
-        cameraForward.y = 0; // Ignore the y-axis rotation of the camera
-        cameraForward.Normalize();
+        xRotation -= PlayerMouseInput.y * Sensitivity;
 
-        Vector3 cameraRight = Camera.main.transform.right;
-        cameraRight.y = 0;
-        cameraRight.Normalize();
-
-        Vector3 moveDirection = cameraForward * inputVector.y + cameraRight * inputVector.x;
-
-        transform.position += moveDirection * speed * Time.deltaTime;
-
-        if (moveDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            //  transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-        }
-
+        transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
+        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
+
+
+
+
+    /* private void CameraRotating()
+     {
+         Vector2 inputVector = GetMovementVectorNormalized();
+         Vector3 cameraForward = Camera.main.transform.forward;
+         cameraForward.y = 0; // Ignore the y-axis rotation of the camera
+         cameraForward.Normalize();
+
+         Vector3 cameraRight = Camera.main.transform.right;
+         cameraRight.y = 0;
+         cameraRight.Normalize();
+
+         Vector3 moveDirection = cameraForward * inputVector.y + cameraRight * inputVector.x;
+
+         transform.position += moveDirection * speed * Time.deltaTime;
+
+         if (moveDirection != Vector3.zero)
+         {
+             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+               transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+         }
+
+     }*/
     /*private void Jump()
     {
         if (playerInputActions.Player.Jump.triggered && isGrounded)
@@ -118,18 +141,5 @@ public class PlayerController : MonoBehaviour
         }
     }*/
 
-    public Vector2 GetMovementVectorNormalized()
-    {
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
 
-        inputVector = inputVector.normalized;
-        return inputVector;
-    }
-    public Vector2 GetJumpVectorNormolized()
-    {
-        Vector2 inputVector = playerInputActions.Player.Jump.ReadValue<Vector2>();
-
-        inputVector = inputVector.normalized;
-        return inputVector;
-    }
 }
