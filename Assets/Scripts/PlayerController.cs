@@ -53,16 +53,16 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            isGrounded = false;
             if (Input.GetKey(KeyCode.W))
             {
                 PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, Input.GetAxis("Vertical"));
-                isGrounded = false;
+
 
             }
             else if (Input.GetKey(KeyCode.S))
             {
                 PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, Input.GetAxis("Vertical") / 3);
-                isGrounded = false;
             }
         }
 
