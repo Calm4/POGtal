@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float Sensitivity;
     [SerializeField] private float JumpForce;
     [Space]
-
+    private bool isGrounded;
 
     private Vector3 Velocity;
 
@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         PlayerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         MovePlayer();
         MovePlayerCamera();
@@ -53,31 +52,32 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 MoveVector = transform.TransformDirection(PlayerMovementInput) * Speed;
         playerRb.velocity = new Vector3(MoveVector.x, playerRb.velocity.y, MoveVector.z);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Physics.CheckSphere(feetTransform.position, 0.3f, floorMask))
         {
-            Debug.Log("1");
-            if (Physics.CheckSphere(feetTransform.position, 0.3f, floorMask))
+            PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            isGrounded = true;
+        }
+        else
+        {
+            if (Input.GetAxis("Vertical") >= 0)
             {
-            Debug.Log("2");
-                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, Input.GetAxis("Vertical"));
+                isGrounded = false;
+            }
+            else
+            {
+                PlayerMovementInput = new Vector3(Input.GetAxis("Horizontal") / 2, 0f, 0f);
+                isGrounded = false;
             }
         }
 
-        /*
-
-                if (directionVector.magnitude > Mathf.Abs(0.1f))
-                {
-                    // Поворот игрока
-                    float targetAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg + cam.eulerAngles.y; // для отслеживания поворота камеры приплюсуем eulerAngles.y
-                    // Плавность для поворота
-                    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-                    Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward; // forward - перед для камеры и для игрока
-                    playerRb.velocity = moveDir.normalized * Speed;
-                }*/
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            }
+        }
     }
     private void MovePlayerCamera()
     {
@@ -86,60 +86,5 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(0f, PlayerMouseInput.x * Sensitivity, 0f);
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
-
-
-
-
-    /* private void CameraRotating()
-     {
-         Vector2 inputVector = GetMovementVectorNormalized();
-         Vector3 cameraForward = Camera.main.transform.forward;
-         cameraForward.y = 0; // Ignore the y-axis rotation of the camera
-         cameraForward.Normalize();
-
-         Vector3 cameraRight = Camera.main.transform.right;
-         cameraRight.y = 0;
-         cameraRight.Normalize();
-
-         Vector3 moveDirection = cameraForward * inputVector.y + cameraRight * inputVector.x;
-
-         transform.position += moveDirection * speed * Time.deltaTime;
-
-         if (moveDirection != Vector3.zero)
-         {
-             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-               transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-         }
-
-     }*/
-    /*private void Jump()
-    {
-        if (playerInputActions.Player.Jump.triggered && isGrounded)
-        {
-            playerRb.AddForce(Vector3.up * JumpForce * 0.02f, ForceMode.VelocityChange);
-            isGrounded = false;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        IsGroundedUpdate(collision, true);
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        IsGroundedUpdate(collision, false);
-    }
-    private void IsGroundedUpdate(Collision collision, bool value)
-    {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Block")
-        {
-            isGrounded = value;
-        }
-        if(!value)
-        {
-            playerRb.AddForce(Physics.gravity * 3f, ForceMode.Acceleration);
-        }
-    }*/
-
 
 }
