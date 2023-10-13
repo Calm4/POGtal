@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 PlayerMovementInput;
     private Vector2 PlayerMouseInput;
 
-    private Animator animator;
     private float xRotation;
 
     [SerializeField] private LayerMask floorMask;
@@ -35,8 +34,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        animator = GetComponent<Animator>();
+
         playerRb = GetComponent<Rigidbody>();
+
 
     }
 
@@ -56,13 +56,14 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Physics.CheckSphere(feetTransform.position, 0.1f, floorMask))
+            Debug.Log("1");
+            if (Physics.CheckSphere(feetTransform.position, 0.3f, floorMask))
             {
+            Debug.Log("2");
                 playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-
             }
         }
-        animator.SetFloat("speed", Vector3.ClampMagnitude(MoveVector, 1).magnitude);
+
         /*
 
                 if (directionVector.magnitude > Mathf.Abs(0.1f))
