@@ -790,7 +790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2036390188655955747, guid: 7125b1363d9e06546b8f133db0527747, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.1
+      value: 5.25
       objectReference: {fileID: 0}
     - target: {fileID: 2036390188655955747, guid: 7125b1363d9e06546b8f133db0527747, type: 3}
       propertyPath: m_LocalPosition.z
@@ -828,6 +828,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ramp (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2065746427804240727, guid: 7125b1363d9e06546b8f133db0527747, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9f32d6e9bacbbb4aa4ceaf765722e5a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7125b1363d9e06546b8f133db0527747, type: 3}
 --- !u!1 &805506582
@@ -3636,6 +3640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ramp
       objectReference: {fileID: 0}
+    - target: {fileID: 2065746427804240727, guid: 7125b1363d9e06546b8f133db0527747, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9f32d6e9bacbbb4aa4ceaf765722e5a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7125b1363d9e06546b8f133db0527747, type: 3}
 --- !u!1 &2080307180140541114
@@ -5620,6 +5628,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColumnWithBridge
       objectReference: {fileID: 0}
+    - target: {fileID: 9010417083471530500, guid: ccca1c4baa56814489741bc13985266f, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: b9f32d6e9bacbbb4aa4ceaf765722e5a, type: 2}
     - target: {fileID: 9059546635362129646, guid: ccca1c4baa56814489741bc13985266f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -5631,6 +5643,10 @@ PrefabInstance:
     - target: {fileID: 9071065465699549164, guid: ccca1c4baa56814489741bc13985266f, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9071065465699549164, guid: ccca1c4baa56814489741bc13985266f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.797
       objectReference: {fileID: 0}
     - target: {fileID: 9071065465699549164, guid: ccca1c4baa56814489741bc13985266f, type: 3}
       propertyPath: m_LocalRotation.w
