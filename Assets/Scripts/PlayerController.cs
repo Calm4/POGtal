@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded)
             {
-                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+                playerRb.AddForce(Vector3.up * JumpForce, ForceMode.Acceleration);
             }
         }
     }

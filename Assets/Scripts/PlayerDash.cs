@@ -13,7 +13,7 @@ public class PlayerDash : MonoBehaviour
     [Header("Dashing")]
     public float dashForce;
     public float dashUpwardForce;
-    public float dashDuration;
+    public float dashPowerUp;
 
     [Header("Cooldown")]
     public float dashCooldown = 2f;
@@ -40,26 +40,23 @@ public class PlayerDash : MonoBehaviour
     {
        
         uiElements.UpdateUI();
-        Vector3 forceToApply = orientation.forward * dashForce + orientation.up * dashUpwardForce;
-        playerRigidbody.AddForce(forceToApply, ForceMode.Impulse);
+        Vector3 forceToApply = orientation.forward * dashForce * dashPowerUp + orientation.up * dashUpwardForce;
+        playerRigidbody.AddForce(forceToApply, ForceMode.Acceleration);
     }
 
     private void ResetDash()
     {
-        if (!canDash)
-        {
+         
             dashCooldown -= Time.deltaTime; // Уменьшаем время задержки
 
             if (dashCooldown <= 0f)
             {
                 
                 uiElements.UpdateUI();
-
-
                 canDash = true; // Возможность рывка восстановлена
                 dashCooldown = 2f; // Сброс времени задержки
             }
-        }
+       
     }
     // Update is called once per frame
     void Update()
