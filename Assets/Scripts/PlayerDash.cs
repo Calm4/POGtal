@@ -17,7 +17,7 @@ public class PlayerDash : MonoBehaviour
 
     [Header("Cooldown")]
     public float dashCooldown = 2f;
-
+    private float currentCooldown;
 
     [Header("Input")]
     public KeyCode dashKey = KeyCode.LeftShift;
@@ -26,19 +26,18 @@ public class PlayerDash : MonoBehaviour
     private Vector3 delayedForceToApply;
 
     private UIElements uiElements;
+
     // Start is called before the first frame update
     void Start()
     {
-
         uiElements = GameObject.Find("UIElements").GetComponent<UIElements>();
         playerRigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
-
+        currentCooldown = dashCooldown;
     }
 
     private void Dash()
     {
-       
         uiElements.UpdateUI();
         Vector3 forceToApply = orientation.forward * dashForce * dashPowerUp + orientation.up * dashUpwardForce;
         playerRigidbody.AddForce(forceToApply, ForceMode.Acceleration);
@@ -46,18 +45,16 @@ public class PlayerDash : MonoBehaviour
 
     private void ResetDash()
     {
-         
-            dashCooldown -= Time.deltaTime; // Уменьшаем время задержки
+        currentCooldown -= Time.fixedDeltaTime;
 
-            if (dashCooldown <= 0f)
-            {
-                
-                uiElements.UpdateUI();
-                canDash = true; // Возможность рывка восстановлена
-                dashCooldown = 2f; // Сброс времени задержки
-            }
-       
+        if (currentCooldown <= 0f)
+        {
+            uiElements.UpdateUI();
+            canDash = true;
+            currentCooldown = dashCooldown;
+        }
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -71,6 +68,5 @@ public class PlayerDash : MonoBehaviour
             Dash();
             canDash = false;
         }
-        
     }
 }

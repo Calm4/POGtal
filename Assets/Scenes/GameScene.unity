@@ -2399,9 +2399,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 294846552}
   playerCamera: {fileID: 414657153}
-  dashForce: 50
+  dashForce: 0
   dashUpwardForce: 0
-  dashPowerUp: 200
+  dashPowerUp: 0
   dashCooldown: 2
   dashKey: 304
 --- !u!1 &1586969960
