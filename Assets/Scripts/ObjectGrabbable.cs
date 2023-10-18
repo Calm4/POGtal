@@ -15,6 +15,16 @@ public class ObjectGrabbable : MonoBehaviour
         objectRigidbody.useGravity = false;
     }
 
+    public void Move()
+    {
+        Debug.Log("MOVE");
+        float forceSpeed = 15f;
+        var vectorToThrow = objectGrabPointTransform.forward;
+        Drop();
+        objectRigidbody.AddForce(vectorToThrow * forceSpeed, ForceMode.Impulse); //.velocity = vectorToThrow * forceSpeed * Time.deltaTime;
+        
+    }
+
     public void Drop()
     {
         this.objectGrabPointTransform = null;

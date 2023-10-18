@@ -62,6 +62,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ThrowItems"",
+                    ""type"": ""Button"",
+                    ""id"": ""79ff43cd-d8f0-4cf0-896d-97573731345e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -163,6 +172,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""PickUpItems"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87d55f48-e978-46b8-870e-3dbed1fc50ac"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowItems"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -175,6 +195,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_RotateCamera = m_Player.FindAction("RotateCamera", throwIfNotFound: true);
         m_Player_PickUpItems = m_Player.FindAction("PickUpItems", throwIfNotFound: true);
+        m_Player_ThrowItems = m_Player.FindAction("ThrowItems", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -240,6 +261,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_RotateCamera;
     private readonly InputAction m_Player_PickUpItems;
+    private readonly InputAction m_Player_ThrowItems;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -248,6 +270,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @RotateCamera => m_Wrapper.m_Player_RotateCamera;
         public InputAction @PickUpItems => m_Wrapper.m_Player_PickUpItems;
+        public InputAction @ThrowItems => m_Wrapper.m_Player_ThrowItems;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -269,6 +292,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PickUpItems.started += instance.OnPickUpItems;
             @PickUpItems.performed += instance.OnPickUpItems;
             @PickUpItems.canceled += instance.OnPickUpItems;
+            @ThrowItems.started += instance.OnThrowItems;
+            @ThrowItems.performed += instance.OnThrowItems;
+            @ThrowItems.canceled += instance.OnThrowItems;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -285,6 +311,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @PickUpItems.started -= instance.OnPickUpItems;
             @PickUpItems.performed -= instance.OnPickUpItems;
             @PickUpItems.canceled -= instance.OnPickUpItems;
+            @ThrowItems.started -= instance.OnThrowItems;
+            @ThrowItems.performed -= instance.OnThrowItems;
+            @ThrowItems.canceled -= instance.OnThrowItems;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -308,5 +337,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnRotateCamera(InputAction.CallbackContext context);
         void OnPickUpItems(InputAction.CallbackContext context);
+        void OnThrowItems(InputAction.CallbackContext context);
     }
 }

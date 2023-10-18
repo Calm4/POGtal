@@ -18,16 +18,28 @@ public class PlayerPickUpDrop : MonoBehaviour
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.PickUpItems.started += PickUpItems_started;
-        playerInputActions.Player.PickUpItems.canceled += PickUpItems_canceled; 
+        //playerInputActions.Player.PickUpItems.canceled += PickUpItems_canceled; 
+
+        playerInputActions.Player.ThrowItems.started += ThrowItems_started;
+
+    }
+
+    private void ThrowItems_started(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if(objectGrabbable != null)
+        {
+            objectGrabbable.Move();
+            objectGrabbable = null;
+        }
     }
 
     private void PickUpItems_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if(objectGrabbable != null)
+       /* if(objectGrabbable != null)
         {
             objectGrabbable.Drop();
             objectGrabbable = null;
-        }
+        }*/
        // Debug.Log("Canceled");
     }
 
@@ -36,14 +48,22 @@ public class PlayerPickUpDrop : MonoBehaviour
         Debug.Log("Started");
         float pickUpDistance = 5f;
 
-        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit raycastHit, pickUpDistance))
+        if(objectGrabbable == null)
         {
-            Debug.Log("Опана");
-            if(raycastHit.transform.TryGetComponent(out objectGrabbable))
+            if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit raycastHit, pickUpDistance))
             {
-                objectGrabbable.Grab(objectGrabPointTransform);
+                Debug.Log("Опана");
+                if (raycastHit.transform.TryGetComponent(out objectGrabbable))
+                {
+                    objectGrabbable.Grab(objectGrabPointTransform);
+                }
             }
         }
+        else
+        {
+            objectGrabbable.Drop();
+            objectGrabbable = null;
+        }    
 
     }
 
@@ -54,6 +74,7 @@ public class PlayerPickUpDrop : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {  
+    {
+
     }
 }
