@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerMovement();
-        PlayerJump();
+        PlayerJump(); 
         MovePlayerCamera();
     }
 
